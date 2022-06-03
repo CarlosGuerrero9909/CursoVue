@@ -22,6 +22,41 @@
       <img :src="img" alt=""> <!-- : = v-bind: -->
       <h2 :class="nameClass">This text should be red</h2>
     </div>
+    <br>
+    <div>
+      <button @click="incrementarContador()"> <!-- @ = v-on: -->
+        Botón {{contador}}
+      </button>
+    </div>
+    <br>
+    <div>
+      <input type="text" v-model="inputEvent" @keyup="presionarTecla()">
+    </div>
+    <br>
+    <div>
+      <select @change="cambiarColor()" v-model="colorContenedor">
+        <option value="contenedor rojo">Rojo</option>
+        <option value="contenedor verde">Verde</option>
+        <option value="contenedor amarillo">Amarillo</option>
+        <option value="contenedor azul">Azul</option>
+      </select>
+      <div :class="contenedor"></div>
+    </div>
+    <br>
+    <div>
+      <form @submit="enviarFormulario()">
+        <input type="text" v-model="inputForm">
+        <input type="submit" value="Enviar">
+      </form>
+    </div>
+    <br>
+    <div>
+      <input type="text" @input="cambiarParrafo()" v-model="inputForm">
+    </div>
+    <br>
+    <div>
+      <p>{{parrafo}}</p>
+    </div>
   </div>
 </template>
 
@@ -36,9 +71,38 @@ export default{
       inputText: '',
       selected: '',
       img: 'https://picsum.photos/500/300',
-      nameClass: "texto-rojo"
+      nameClass: "texto-rojo",
+      contador: 0,
+      inputEvent: '',
+      contenedor: 'contenedor',
+      colorContenedor: '',
+      inputForm: '',
+      parrafo: '',
     }
-  }
+  },
+  //Eventos en Vue
+  methods: {
+    incrementarContador(){
+      this.contador++;
+    },
+
+    presionarTecla(){
+      alert(this.inputEvent)
+    },
+
+    cambiarColor(){
+      this.contenedor = this.colorContenedor;
+    },
+
+    enviarFormulario(){
+      this.parrafo = this.inputForm;
+    },
+
+    cambiarParrafo(){
+      this.parrafo = this.inputForm;
+    },
+
+  },
 }
 </script>
 
@@ -50,6 +114,29 @@ export default{
 
 .div-content{
   text-align: center;
+}
+
+.contenedor{
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  background-color: grey;
+}
+
+.azul{
+  background-color: #070044;
+}
+
+.verde{
+  background-color: #004400;
+}
+
+.rojo{
+  background-color: #440000;
+}
+
+.amarillo{
+  background-color: #3a4400;
 }
 
 </style>
