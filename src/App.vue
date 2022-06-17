@@ -57,13 +57,46 @@
     <div>
       <p>{{parrafo}}</p>
     </div>
+    <div :class="container">
+      <p>{{primerTexto}}{{segundoTexto}}</p>
+      <p>{{textoCompleto}}</p>
+      <time class="time">{{now.toLocaleDateString()}}</time>
+      <br>
+      <time class="ti">{{hoy}}</time>
+      <br>
+      <input type="text" name="" id="" v-model="tercerTexto">
+      <button @click="cambiar()">Cambiar</button>
+      <br>
+      <select name="" id="" v-model="selection">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <br>
+      <br>
+      <button @click="openDoor = !openDoor">
+        {{openDoor? 'cerrar': 'abrir'}}
+      </button>
+      <br>
+      <br>
+      <img v-if="openDoor" :src="img" alt=""><!-- v-show   v-if -->
+      <img v-else src="https://picsum.photos/200/300?grayscale" alt=""><!-- tambien existe v-else-if -->
+      <br>
+      <br>
+      <p v-for="(persona, index) in listaPersonas" :key="index">
+        {{persona}}
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
+import { watch } from '@vue/runtime-core';
 export default{
   name:"App", 
   data(){
+    //Variables
     return{
       message: "Hello Vue!",
       description: "Vue is a JavaScript framework for building user interfaces.",
@@ -78,6 +111,15 @@ export default{
       colorContenedor: '',
       inputForm: '',
       parrafo: '',
+      primerTexto: "Bienvenido",
+      segundoTexto: " al curso de VUE",
+      tercerTexto: "",
+      now: new Date(),
+      selection: "",
+      container: "cerrado",
+      openDoor: false,
+      listaPersonas: ['pedro', 'juan', 'ana', 'miguel', 'gabriela','juan'],
+
     }
   },
   //Eventos en Vue
@@ -102,7 +144,32 @@ export default{
       this.parrafo = this.inputForm;
     },
 
+    cambiar(){
+      this.segundoTexto = this.tercerTexto;
+    },
+
   },
+  //Funciones computadas
+  computed: {
+    textoCompleto(){
+      return this.primerTexto+this.segundoTexto;
+    },
+
+    hoy(){
+      return this.now.toLocaleDateString();
+    },
+
+  },
+  //Wachers
+  watch: {
+    selection(value, old){
+      console.log("Se hizo un cambio", value, '-', old);
+    },
+
+    openDoor(value){
+      value? this.container = 'abierto': this.container = 'cerrado';
+    },
+  }
 }
 </script>
 
@@ -132,11 +199,23 @@ export default{
 }
 
 .rojo{
-  background-color: #440000;
+  background-color: #750101;
 }
 
 .amarillo{
-  background-color: #3a4400;
+  background-color: #b9ae0a;
+}
+
+.cerrado {
+  background-color: #7e1616;
+  padding: 10px;
+  border: 5px solid grey;
+}
+
+.abierto {
+  background-color: #159731;
+  padding: 10px;
+  border: 5px dotted grey;
 }
 
 </style>
