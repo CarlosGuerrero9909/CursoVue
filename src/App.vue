@@ -87,16 +87,27 @@
       <p v-for="(persona, index) in listaPersonas" :key="index">
         {{persona}}
       </p>
+      <br>
+      <br>
+      <!-- componentes -->
+      <nuevo-componente v-for="(imagen, index) in imagenes" :key="index" 
+        :titulo="`imagen ${index+1}`"
+        :descripcion="`esta es la imagen ${index+1}`" 
+        :imagen="imagen"
+        @mostrarAlerta="alertar"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { watch } from '@vue/runtime-core';
+import NuevoComponente from './components/nuevoComponente.vue';
 export default{
+  components: {NuevoComponente},
   name:"App", 
   data(){
-    //Variables
+    //Variabled
     return{
       message: "Hello Vue!",
       description: "Vue is a JavaScript framework for building user interfaces.",
@@ -119,7 +130,12 @@ export default{
       container: "cerrado",
       openDoor: false,
       listaPersonas: ['pedro', 'juan', 'ana', 'miguel', 'gabriela','juan'],
-
+      imagenes: [
+        'https://picsum.photos/id/217/200/300',
+        'https://picsum.photos/id/137/200/300',
+        'https://picsum.photos/id/297/200/300',
+        'https://picsum.photos/id/187/200/300'
+      ]
     }
   },
   //Eventos en Vue
@@ -146,6 +162,10 @@ export default{
 
     cambiar(){
       this.segundoTexto = this.tercerTexto;
+    },
+
+    alertar(data){
+      alert(data);
     },
 
   },
