@@ -96,15 +96,31 @@
         :imagen="imagen"
         @mostrarAlerta="alertar"
       />
+      <!-- componentes con asincronismo -->
+      <div class="">
+        <!-- <component :is"componente"></component>
+        <button @click="cambiarComponente()">Boton</button> -->
+        <principal v-if="verComponente"/>
+        <br>
+        <button @click="verComponente=!verComponente">Ocultar</button>
+        <secundario/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { watch } from '@vue/runtime-core';
+/*import Principal from './components/Principal.vue'
+import Secundario from './components/Secundario.vue'*/
+import { defineAsyncComponent } from 'vue';
+const Principal = defineAsyncComponent(() => import("@/components/Principal.vue"))
+
 import NuevoComponente from './components/nuevoComponente.vue';
+import Secundario from './components/Secundario.vue';
+
 export default{
-  components: {NuevoComponente},
+  components: { NuevoComponente, Principal, Secundario },
   name:"App", 
   data(){
     //Variabled
@@ -135,7 +151,10 @@ export default{
         'https://picsum.photos/id/137/200/300',
         'https://picsum.photos/id/297/200/300',
         'https://picsum.photos/id/187/200/300'
-      ]
+      ],
+      
+      componente: "Principal",
+      verComponente: true,
     }
   },
   //Eventos en Vue
@@ -167,6 +186,14 @@ export default{
     alertar(data){
       alert(data);
     },
+
+    cambiarComponente(){
+      if (this.componente == "Principal"){
+        this.componente = "Secundario";
+      } else{
+        this.componente = "Principal";
+      }
+    }
 
   },
   //Funciones computadas
